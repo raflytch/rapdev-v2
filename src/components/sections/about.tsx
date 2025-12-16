@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/atoms/card';
 import { Badge } from '@/components/atoms/badge';
 import { Button } from '@/components/atoms/button';
 import { Separator } from '@/components/atoms/separator';
+import { PointerHighlight } from '@/components/ui/pointer-highlight';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { ABOUT_DATA, CONTACT_DATA } from '@/constants';
 import * as LucideIcons from 'lucide-react';
@@ -43,19 +44,24 @@ export function AboutSection() {
       <div className="max-w-5xl w-full space-y-6">
         {/* Name and Title */}
         <div className="space-y-4">
-          <TextAnimate
-            animation="blurInUp"
-            by="word"
-            as="h1"
-            className={`font-bold text-foreground ${
-              isMobile ? 'text-4xl' : 'text-5xl md:text-6xl lg:text-7xl'
-            }`}
-            delay={0.1}
-            duration={1.2}
-            once
+          <PointerHighlight
+            containerClassName="w-fit"
+            pointerClassName="text-blue-500"
           >
-            {ABOUT_DATA.name}
-          </TextAnimate>
+            <TextAnimate
+              animation="blurInUp"
+              by="word"
+              as="h1"
+              className={`font-bold text-foreground ${
+                isMobile ? 'text-4xl' : 'text-5xl md:text-6xl lg:text-7xl'
+              }`}
+              delay={0.1}
+              duration={1.2}
+              once
+            >
+              {ABOUT_DATA.name}
+            </TextAnimate>
+          </PointerHighlight>
 
           <TextAnimate
             animation="blurInUp"

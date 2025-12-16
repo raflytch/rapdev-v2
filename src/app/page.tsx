@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { LoadingScreen } from '@/components/loading-screen';
 import { NavigationDock } from '@/components/navigation-dock';
+import { ScrollToTop } from '@/components/scroll-to-top';
 import { AboutSection } from '@/components/sections/about';
 import { ExperienceSection } from '@/components/sections/experience';
 import { ProjectsSection } from '@/components/sections/projects';
@@ -31,6 +32,7 @@ export default function Home() {
         </div>
       </main>
 
+      <ScrollToTop />
       <NavigationDock />
     </div>
   );

@@ -12,6 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/atoms/dialog';
+import { PointerHighlight } from '@/components/ui/pointer-highlight';
 import { ExternalLink, Github, Calendar } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import Image from 'next/image';
@@ -85,9 +86,14 @@ export function ProjectsSection() {
       <section id="projects" className="min-h-screen flex items-center justify-center p-4">
         <div className="max-w-7xl w-full space-y-6">
           <div className="space-y-2">
-            <h2 className={`font-bold text-foreground ${isMobile ? 'text-3xl' : 'text-3xl md:text-4xl'}`}>
-              Projects
-            </h2>
+            <PointerHighlight
+              containerClassName="w-fit"
+              pointerClassName="text-pink-500"
+            >
+              <h2 className={`font-bold text-foreground ${isMobile ? 'text-3xl' : 'text-3xl md:text-4xl'}`}>
+                Projects
+              </h2>
+            </PointerHighlight>
             <p className="text-muted-foreground">Showcase of my work and side projects</p>
           </div>
 

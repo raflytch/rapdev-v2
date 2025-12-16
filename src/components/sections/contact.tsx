@@ -17,6 +17,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/atoms/alert-dialog';
+import { PointerHighlight } from '@/components/ui/pointer-highlight';
 import { Send, CheckCircle2, XCircle, Loader2 } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useSendEmail } from '@/services/mutations/mail.mutations';
@@ -82,10 +83,15 @@ export function ContactSection() {
   return (
     <section id="contact" className="min-h-screen flex items-center justify-center p-4">
       <div className="max-w-2xl w-full space-y-6">
-        <div className="space-y-2 text-center">
-          <h2 className={`font-bold text-foreground ${isMobile ? 'text-3xl' : 'text-3xl md:text-4xl'}`}>
-            Get In Touch
-          </h2>
+        <div className="space-y-2 text-center flex flex-col items-center">
+          <PointerHighlight
+            containerClassName="w-fit"
+            pointerClassName="text-purple-500"
+          >
+            <h2 className={`font-bold text-foreground ${isMobile ? 'text-3xl' : 'text-3xl md:text-4xl'}`}>
+              Get In Touch
+            </h2>
+          </PointerHighlight>
           <p className="text-muted-foreground">
             Feel free to reach out for collaborations or just a friendly hello
           </p>

@@ -4,6 +4,7 @@ import { useEducation } from '@/services/queries/education.queries';
 import { Card, CardContent } from '@/components/atoms/card';
 import { Badge } from '@/components/atoms/badge';
 import { Skeleton } from '@/components/atoms/skeleton';
+import { PointerHighlight } from '@/components/ui/pointer-highlight';
 import { GraduationCap, Calendar, Award } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import Image from 'next/image';
@@ -45,9 +46,14 @@ export function EducationSection() {
     <section id="education" className="min-h-screen flex items-center justify-center p-4">
       <div className="max-w-5xl w-full space-y-6">
         <div className="space-y-2">
-          <h2 className={`font-bold text-foreground ${isMobile ? 'text-3xl' : 'text-3xl md:text-4xl'}`}>
-            Education
-          </h2>
+          <PointerHighlight
+            containerClassName="w-fit"
+            pointerClassName="text-green-500"
+          >
+            <h2 className={`font-bold text-foreground ${isMobile ? 'text-3xl' : 'text-3xl md:text-4xl'}`}>
+              Education
+            </h2>
+          </PointerHighlight>
           <p className="text-muted-foreground">My academic background and achievements</p>
         </div>
 

@@ -62,7 +62,6 @@ export default function RootLayout({
           disableTransitionOnChange={false}
         >
           <QueryProvider>
-            <SmoothCursor />
             {children}
           </QueryProvider>
         </ThemeProvider>
