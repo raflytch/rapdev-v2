@@ -80,7 +80,7 @@ export function ContactSection() {
   };
 
   return (
-    <section id="contact" className="min-h-screen flex items-center justify-center p-4 md:p-6">
+    <section id="contact" className="min-h-screen flex items-center justify-center p-4">
       <div className="max-w-2xl w-full space-y-6">
         <div className="space-y-2 text-center">
           <h2 className={`font-bold text-foreground ${isMobile ? 'text-3xl' : 'text-3xl md:text-4xl'}`}>

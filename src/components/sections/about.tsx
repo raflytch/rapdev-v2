@@ -38,7 +38,7 @@ export function AboutSection() {
   return (
     <section
       id="about"
-      className="min-h-screen flex items-center justify-center p-4 md:p-6"
+      className="min-h-screen flex items-center justify-center p-4"
     >
       <div className="max-w-5xl w-full space-y-6">
         {/* Name and Title */}
