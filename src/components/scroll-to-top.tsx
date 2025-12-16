@@ -7,7 +7,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { motion, AnimatePresence } from 'motion/react';
 
 /**
- * Scroll to top button with gradient styling
+ * Scroll to top button with elegant black gradient
  * Appears when user scrolls down and positioned above the dock
  */
 export function ScrollToTop() {
@@ -41,10 +41,13 @@ export function ScrollToTop() {
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 20 }}
-          transition={{ duration: 0.2 }}
+          initial={{ opacity: 0, y: 20, scale: 0.8 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 20, scale: 0.8 }}
+          transition={{ 
+            duration: 0.3,
+            ease: [0.4, 0, 0.2, 1]
+          }}
           className={`fixed z-40 ${
             isMobile ? 'bottom-20 right-4' : 'bottom-24 right-6'
           }`}
@@ -52,9 +55,9 @@ export function ScrollToTop() {
           <Button
             onClick={scrollToTop}
             size={isMobile ? 'default' : 'lg'}
-            className="rounded-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 border-0 transition-all duration-300"
+            className="group rounded-full bg-gradient-to-br from-gray-900 via-gray-800 to-black hover:from-black hover:via-gray-900 hover:to-gray-800 border-2 border-gray-700 hover:border-gray-600 backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 ring-2 ring-gray-600/30 hover:ring-gray-500/50"
           >
-            <FaArrowUp className={isMobile ? 'w-4 h-4' : 'w-5 h-5'} />
+            <FaArrowUp className={`${isMobile ? 'w-4 h-4' : 'w-5 h-5'} transition-transform duration-300 group-hover:-translate-y-0.5 text-white`} />
           </Button>
         </motion.div>
       )}
