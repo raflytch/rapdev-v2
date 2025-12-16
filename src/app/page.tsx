@@ -22,11 +22,13 @@ export default function Home() {
   return (
     <div className="relative">
       <main className="scroll-smooth">
-        <AboutSection />
-        <ExperienceSection />
-        <ProjectsSection />
-        <EducationSection />
-        <ContactSection />
+        <div className="space-y-0">
+          <AboutSection />
+          <ExperienceSection />
+          <ProjectsSection />
+          <EducationSection />
+          <ContactSection />
+        </div>
       </main>
 
       <NavigationDock />

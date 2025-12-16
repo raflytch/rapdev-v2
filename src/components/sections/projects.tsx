@@ -158,14 +158,16 @@ export function ProjectsSection() {
 
       {/* Project Detail Modal */}
       <Dialog open={!!selectedProjectId} onOpenChange={(open) => !open && handleCloseProject()}>
-        <DialogContent className={`max-w-3xl max-h-[85vh] overflow-y-auto ${isMobile ? 'p-4' : 'p-6'}`}>
+        <DialogContent 
+          className={`${isMobile ? 'max-w-[95vw] max-h-[90vh] p-3' : 'max-w-3xl max-h-[85vh] p-6'} overflow-y-auto`}
+        >
           <DialogTitle className="sr-only">Project Details</DialogTitle>
           {isLoadingDetail ? (
             <ProjectDetailSkeleton isMobile={isMobile} />
           ) : projectDetail ? (
-            <div className="space-y-4">
+            <div className={isMobile ? 'space-y-3' : 'space-y-4'}>
               {/* Project Image */}
-              <div className={`relative w-full rounded-lg overflow-hidden border-2 border-border ${isMobile ? 'h-48' : 'h-64'}`}>
+              <div className={`relative w-full rounded-lg overflow-hidden border-2 border-border ${isMobile ? 'h-44' : 'h-64'}`}>
                 <Image
                   src={projectDetail.image}
                   alt={projectDetail.title}
@@ -176,38 +178,38 @@ export function ProjectsSection() {
               </div>
 
               {/* Project Info */}
-              <div className="space-y-4">
+              <div className={isMobile ? 'space-y-3' : 'space-y-4'}>
                 <div>
-                  <h2 className={`font-bold text-foreground ${isMobile ? 'text-xl' : 'text-2xl'}`}>
+                  <h2 className={`font-bold text-foreground ${isMobile ? 'text-lg' : 'text-2xl'}`}>
                     {projectDetail.title}
                   </h2>
-                  <p className={`text-muted-foreground mt-1 ${isMobile ? 'text-sm' : 'text-base'}`}>
+                  <p className={`text-muted-foreground mt-1 ${isMobile ? 'text-xs' : 'text-base'}`}>
                     {projectDetail.subtitle}
                   </p>
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground mt-2">
-                    <Calendar className="w-3.5 h-3.5" />
+                  <div className={`flex items-center gap-2 text-muted-foreground mt-1.5 ${isMobile ? 'text-xs' : 'text-xs'}`}>
+                    <Calendar className={isMobile ? 'w-3 h-3' : 'w-3.5 h-3.5'} />
                     <span>{format(new Date(projectDetail.createdAt), 'MMMM dd, yyyy')}</span>
                   </div>
                 </div>
 
                 {/* Description */}
                 <div>
-                  <h3 className={`font-semibold text-foreground mb-2 ${isMobile ? 'text-sm' : 'text-base'}`}>
+                  <h3 className={`font-semibold text-foreground mb-1.5 ${isMobile ? 'text-xs' : 'text-base'}`}>
                     About This Project
                   </h3>
-                  <p className={`text-foreground/90 leading-relaxed ${isMobile ? 'text-sm' : 'text-base'}`}>
+                  <p className={`text-foreground/90 leading-relaxed ${isMobile ? 'text-xs' : 'text-base'}`}>
                     {projectDetail.description}
                   </p>
                 </div>
 
                 {/* Technologies */}
                 <div>
-                  <h3 className={`font-semibold text-foreground mb-2 ${isMobile ? 'text-sm' : 'text-base'}`}>
+                  <h3 className={`font-semibold text-foreground mb-1.5 ${isMobile ? 'text-xs' : 'text-base'}`}>
                     Technologies Used
                   </h3>
-                  <div className="flex flex-wrap gap-1.5">
+                  <div className={`flex flex-wrap ${isMobile ? 'gap-1' : 'gap-1.5'}`}>
                     {projectDetail.tags.map((tag) => (
-                      <Badge key={tag} variant="secondary" className="text-xs border px-2 py-1">
+                      <Badge key={tag} variant="secondary" className={`border ${isMobile ? 'text-xs px-1.5 py-0.5' : 'text-xs px-2 py-1'}`}>
                         {tag}
                       </Badge>
                     ))}
@@ -215,11 +217,11 @@ export function ProjectsSection() {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex flex-col sm:flex-row gap-2 pt-2">
+                <div className={`flex flex-col gap-2 ${isMobile ? 'pt-1' : 'pt-2'}`}>
                   <Button
                     variant="default"
                     size={isMobile ? 'sm' : 'default'}
-                    className="flex-1"
+                    className="w-full"
                     asChild
                   >
                     <a href={projectDetail.demoUrl} target="_blank" rel="noopener noreferrer">
@@ -230,7 +232,7 @@ export function ProjectsSection() {
                   <Button
                     variant="outline"
                     size={isMobile ? 'sm' : 'default'}
-                    className="flex-1 border-2"
+                    className="w-full border-2"
                     asChild
                   >
                     <a href={projectDetail.githubUrl} target="_blank" rel="noopener noreferrer">

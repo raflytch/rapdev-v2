@@ -8,16 +8,26 @@ import { Separator } from '@/components/atoms/separator';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { ABOUT_DATA, CONTACT_DATA } from '@/constants';
 import * as LucideIcons from 'lucide-react';
+import * as SimpleIcons from 'react-icons/si';
 import { FaLinkedin, FaGithub } from 'react-icons/fa';
 import { motion } from 'motion/react';
 
 /**
- * Get icon component from lucide-react by name
+ * Get icon component from lucide-react by name (for skills)
  */
-const getIcon = (iconName: string) => {
+const getLucideIcon = (iconName: string) => {
   const Icon = (LucideIcons as any)[iconName];
   return Icon ? Icon : LucideIcons.Circle;
 };
+
+/**
+ * Get icon component from react-icons/si by name (for tech stack)
+ */
+const getSimpleIcon = (iconName: string) => {
+  const Icon = (SimpleIcons as any)[iconName];
+  return Icon ? Icon : SimpleIcons.SiReact;
+};
+
 
 /**
  * About section with clean UI, animated text, and icons
@@ -125,7 +135,7 @@ export function AboutSection() {
           </TextAnimate>
           <div className={`grid gap-3 ${isMobile ? 'grid-cols-2' : 'grid-cols-3 md:grid-cols-5'}`}>
             {ABOUT_DATA.skills.map((skill, index) => {
-              const Icon = getIcon(skill.icon);
+              const Icon = getLucideIcon(skill.icon);
               return (
                 <motion.div
                   key={skill.name}
@@ -165,7 +175,7 @@ export function AboutSection() {
           </TextAnimate>
           <div className="flex flex-wrap gap-2">
             {ABOUT_DATA.techStack.map((tech, index) => {
-              const Icon = getIcon(tech.icon);
+              const Icon = getSimpleIcon(tech.icon);
               return (
                 <motion.div
                   key={tech.name}
