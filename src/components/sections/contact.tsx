@@ -1,6 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
 import { Card, CardContent } from '@/components/atoms/card';
 import { Button } from '@/components/atoms/button';
 import { Input } from '@/components/atoms/input';
@@ -14,23 +17,36 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/atoms/alert-dialog';
-import { Mail, Linkedin, Github, MapPin, Send, CheckCircle2, XCircle } from 'lucide-react';
+import { Send, CheckCircle2, XCircle } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { CONTACT_DATA } from '@/constants';
 import { useSendEmail } from '@/services/mutations/mail.mutations';
 
 /**
- * Contact section component with email form
+ * Email form validation schema
+ */
+const emailSchema = z.object({
+  name: z.string().min(1, 'Name is required').min(2, 'Name must be at least 2 characters'),
+  email: z.string().min(1, 'Email is required').email('Invalid email address'),
+  subject: z.string().min(1, 'Subject is required').min(3, 'Subject must be at least 3 characters'),
+  message: z.string().min(1, 'Message is required').min(10, 'Message must be at least 10 characters'),
+});
+
+type EmailFormData = z.infer<typeof emailSchema>;
+
+/**
+ * Contact section component with validated email form
  */
 export function ContactSection() {
   const isMobile = useIsMobile();
   const { mutate: sendEmail, isPending } = useSendEmail();
 
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<EmailFormData>({
+    resolver: zodResolver(emailSchema),
   });
 
   const [dialogState, setDialogState] = useState<{
@@ -43,17 +59,15 @@ export function ContactSection() {
     message: '',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    sendEmail(formData, {
+  const onSubmit = (data: EmailFormData) => {
+    sendEmail(data, {
       onSuccess: () => {
         setDialogState({
           open: true,
           success: true,
-          message: 'Your message has been sent successfully! I\'ll get back to you soon.',
+          message: "Your message has been sent successfully! I'll get back to you soon.",
         });
-        setFormData({ name: '', email: '', subject: '', message: '' });
+        reset();
       },
       onError: (error: any) => {
         setDialogState({
@@ -65,40 +79,9 @@ export function ContactSection() {
     });
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const contactLinks = [
-    {
-      icon: Linkedin,
-      label: 'LinkedIn',
-      value: 'linkedin.com/in/raflyazizabdillah',
-      href: CONTACT_DATA.linkedin,
-      color: 'text-blue-600',
-    },
-    {
-      icon: Github,
-      label: 'GitHub',
-      value: 'github.com/raflytch',
-      href: CONTACT_DATA.github,
-      color: 'text-foreground',
-    },
-    {
-      icon: MapPin,
-      label: 'Location',
-      value: CONTACT_DATA.location,
-      href: null,
-      color: 'text-red-500',
-    },
-  ];
-
   return (
     <section id="contact" className="min-h-screen flex items-center justify-center p-4 md:p-8 lg:p-12">
-      <div className="max-w-5xl w-full space-y-8">
+      <div className="max-w-2xl w-full space-y-8">
         <div className="space-y-2 text-center">
           <h2 className={`font-bold text-foreground ${isMobile ? 'text-3xl' : 'text-3xl md:text-4xl'}`}>
             Get In Touch
@@ -108,128 +91,96 @@ export function ContactSection() {
           </p>
         </div>
 
-        <div className={`grid gap-6 ${isMobile ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-2'}`}>
-          {/* Contact Form */}
-          <Card className="border-2">
-            <CardContent className={isMobile ? 'p-4' : 'p-6'}>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="name">Name</Label>
-                  <Input
-                    id="name"
-                    name="name"
-                    placeholder="Your name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="border-2"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="your.email@example.com"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="border-2"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="subject">Subject</Label>
-                  <Input
-                    id="subject"
-                    name="subject"
-                    placeholder="What's this about?"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    required
-                    className="border-2"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="message">Message</Label>
-                  <Textarea
-                    id="message"
-                    name="message"
-                    placeholder="Your message..."
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    rows={isMobile ? 4 : 6}
-                    className="border-2 resize-none"
-                  />
-                </div>
-
-                <Button
-                  type="submit"
-                  className="w-full"
-                  disabled={isPending}
-                >
-                  {isPending ? (
-                    <>
-                      <span className="animate-spin mr-2">⏳</span>
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-4 h-4 mr-2" />
-                      Send Message
-                    </>
+        {/* Contact Form */}
+        <Card className="border-2">
+          <CardContent className={isMobile ? 'p-4' : 'p-6'}>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              <div className="space-y-1">
+                <Label htmlFor="name" className="text-sm">
+                  Name <span className="text-destructive">*</span>
+                </Label>
+                <Input
+                  id="name"
+                  placeholder="Your name"
+                  className="border-2"
+                  {...register('name')}
+                />
+                <div className="min-h-[20px]">
+                  {errors.name && (
+                    <p className="text-xs text-destructive mt-1">{errors.name.message}</p>
                   )}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
+                </div>
+              </div>
 
-          {/* Contact Info */}
-          <div className="space-y-4">
-            {contactLinks.map((contact) => {
-              const Icon = contact.icon;
-              const isClickable = contact.href !== null;
+              <div className="space-y-1">
+                <Label htmlFor="email" className="text-sm">
+                  Email <span className="text-destructive">*</span>
+                </Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="your.email@example.com"
+                  className="border-2"
+                  {...register('email')}
+                />
+                <div className="min-h-[20px]">
+                  {errors.email && (
+                    <p className="text-xs text-destructive mt-1">{errors.email.message}</p>
+                  )}
+                </div>
+              </div>
 
-              const cardContent = (
-                <Card className="border-2 hover:border-primary/50 transition-colors h-full">
-                  <CardContent className={isMobile ? 'p-4' : 'p-6'}>
-                    <div className="flex items-start gap-4">
-                      <div className={`p-3 rounded-lg border-2 border-border/50 ${contact.color}`}>
-                        <Icon className="w-6 h-6" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-foreground mb-1">{contact.label}</h3>
-                        <p className={`text-muted-foreground break-all ${isMobile ? 'text-sm' : 'text-base'}`}>
-                          {contact.value}
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
+              <div className="space-y-1">
+                <Label htmlFor="subject" className="text-sm">
+                  Subject <span className="text-destructive">*</span>
+                </Label>
+                <Input
+                  id="subject"
+                  placeholder="What's this about?"
+                  className="border-2"
+                  {...register('subject')}
+                />
+                <div className="min-h-[20px]">
+                  {errors.subject && (
+                    <p className="text-xs text-destructive mt-1">{errors.subject.message}</p>
+                  )}
+                </div>
+              </div>
 
-              if (isClickable) {
-                return (
-                  <a
-                    key={contact.label}
-                    href={contact.href!}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block"
-                  >
-                    {cardContent}
-                  </a>
-                );
-              }
+              <div className="space-y-1">
+                <Label htmlFor="message" className="text-sm">
+                  Message <span className="text-destructive">*</span>
+                </Label>
+                <Textarea
+                  id="message"
+                  placeholder="Your message..."
+                  rows={isMobile ? 4 : 6}
+                  className="border-2 resize-none"
+                  {...register('message')}
+                />
+                <div className="min-h-[20px]">
+                  {errors.message && (
+                    <p className="text-xs text-destructive mt-1">{errors.message.message}</p>
+                  )}
+                </div>
+              </div>
 
-              return <div key={contact.label}>{cardContent}</div>;
-            })}
-          </div>
-        </div>
+              <Button type="submit" className="w-full" disabled={isPending}>
+                {isPending ? (
+                  <>
+                    <span className="animate-spin mr-2">⏳</span>
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4 mr-2" />
+                    Send Message
+                  </>
+                )}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Alert Dialog */}
@@ -242,18 +193,12 @@ export function ContactSection() {
               ) : (
                 <XCircle className="w-8 h-8 text-destructive" />
               )}
-              <AlertDialogTitle>
-                {dialogState.success ? 'Message Sent!' : 'Error'}
-              </AlertDialogTitle>
+              <AlertDialogTitle>{dialogState.success ? 'Message Sent!' : 'Error'}</AlertDialogTitle>
             </div>
-            <AlertDialogDescription className="text-base">
-              {dialogState.message}
-            </AlertDialogDescription>
+            <AlertDialogDescription className="text-base">{dialogState.message}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <Button onClick={() => setDialogState((prev) => ({ ...prev, open: false }))}>
-              Close
-            </Button>
+            <Button onClick={() => setDialogState((prev) => ({ ...prev, open: false }))}>Close</Button>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

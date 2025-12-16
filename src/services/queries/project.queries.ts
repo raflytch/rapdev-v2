@@ -13,6 +13,14 @@ const fetchProjects = async (page = 1, limit = 10): Promise<ApiResponse<Project>
 };
 
 /**
+ * Fetch single project by ID
+ */
+const fetchProjectById = async (id: string): Promise<Project> => {
+  const response = await httpClient.get<Project>(`/project/${id}`);
+  return response.data;
+};
+
+/**
  * Hook to fetch projects with React Query
  */
 export const useProjects = (page = 1, limit = 10) => {
@@ -21,3 +29,15 @@ export const useProjects = (page = 1, limit = 10) => {
     queryFn: () => fetchProjects(page, limit),
   });
 };
+
+/**
+ * Hook to fetch single project by ID
+ */
+export const useProjectById = (id: string | null) => {
+  return useQuery({
+    queryKey: ['project', id],
+    queryFn: () => fetchProjectById(id!),
+    enabled: !!id,
+  });
+};
+

@@ -3,10 +3,12 @@
 import { TextAnimate } from '@/components/atoms/text-animate';
 import { Card, CardContent } from '@/components/atoms/card';
 import { Badge } from '@/components/atoms/badge';
+import { Button } from '@/components/atoms/button';
 import { Separator } from '@/components/atoms/separator';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { ABOUT_DATA } from '@/constants';
+import { ABOUT_DATA, CONTACT_DATA } from '@/constants';
 import * as LucideIcons from 'lucide-react';
+import { FaLinkedin, FaGithub } from 'react-icons/fa';
 import { motion } from 'motion/react';
 
 /**
@@ -58,9 +60,36 @@ export function AboutSection() {
           >
             {ABOUT_DATA.title}
           </TextAnimate>
+
+          {/* Social Buttons */}
+          <div className="flex gap-3 pt-2">
+            <Button
+              variant="outline"
+              size={isMobile ? 'default' : 'lg'}
+              className="border-2"
+              asChild
+            >
+              <a href={CONTACT_DATA.linkedin} target="_blank" rel="noopener noreferrer">
+                <FaLinkedin className="w-5 h-5 mr-2" />
+                LinkedIn
+              </a>
+            </Button>
+            <Button
+              variant="outline"
+              size={isMobile ? 'default' : 'lg'}
+              className="border-2"
+              asChild
+            >
+              <a href={CONTACT_DATA.github} target="_blank" rel="noopener noreferrer">
+                <FaGithub className="w-5 h-5 mr-2" />
+                GitHub
+              </a>
+            </Button>
+          </div>
         </div>
 
         <Separator className="my-8" />
+
 
         {/* Description Card */}
         <Card className="border-2">
