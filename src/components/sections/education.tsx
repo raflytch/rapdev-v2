@@ -42,8 +42,8 @@ export function EducationSection() {
   const isMobile = useIsMobile();
 
   return (
-    <section id="education" className="min-h-screen flex items-center justify-center p-4 md:p-6 lg:p-8">
-      <div className="max-w-5xl w-full space-y-8">
+    <section id="education" className="min-h-screen flex items-center justify-center p-4 md:p-6">
+      <div className="max-w-5xl w-full space-y-6">
         <div className="space-y-2">
           <h2 className={`font-bold text-foreground ${isMobile ? 'text-3xl' : 'text-3xl md:text-4xl'}`}>
             Education

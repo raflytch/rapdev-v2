@@ -52,6 +52,7 @@ export const ABOUT_DATA = {
     { name: 'Express.js', icon: 'SiExpress' },
     { name: 'Nest.js', icon: 'SiNestjs' },
     { name: 'PostgreSQL', icon: 'SiPostgresql' },
+    { name: 'MySQL', icon: 'SiMysql' },
     { name: 'Git', icon: 'SiGit' },
     { name: 'Jest', icon: 'SiJest' },
     { name: 'Docker', icon: 'SiDocker' },

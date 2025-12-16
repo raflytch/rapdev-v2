@@ -17,7 +17,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/atoms/alert-dialog';
-import { Send, CheckCircle2, XCircle } from 'lucide-react';
+import { Send, CheckCircle2, XCircle, Loader2 } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useSendEmail } from '@/services/mutations/mail.mutations';
 
@@ -80,8 +80,8 @@ export function ContactSection() {
   };
 
   return (
-    <section id="contact" className="min-h-screen flex items-center justify-center p-4 md:p-6 lg:p-8">
-      <div className="max-w-2xl w-full space-y-8">
+    <section id="contact" className="min-h-screen flex items-center justify-center p-4 md:p-6">
+      <div className="max-w-2xl w-full space-y-6">
         <div className="space-y-2 text-center">
           <h2 className={`font-bold text-foreground ${isMobile ? 'text-3xl' : 'text-3xl md:text-4xl'}`}>
             Get In Touch
@@ -168,7 +168,7 @@ export function ContactSection() {
               <Button type="submit" className="w-full" disabled={isPending}>
                 {isPending ? (
                   <>
-                    <span className="animate-spin mr-2">⏳</span>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                     Sending...
                   </>
                 ) : (

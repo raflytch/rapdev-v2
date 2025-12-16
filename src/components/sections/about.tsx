@@ -38,9 +38,9 @@ export function AboutSection() {
   return (
     <section
       id="about"
-      className="min-h-screen flex items-center justify-center p-4 md:p-6 lg:p-8"
+      className="min-h-screen flex items-center justify-center p-4 md:p-6"
     >
-      <div className="max-w-5xl w-full space-y-8">
+      <div className="max-w-5xl w-full space-y-6">
         {/* Name and Title */}
         <div className="space-y-4">
           <TextAnimate
