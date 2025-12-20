@@ -65,6 +65,7 @@ export const CONTACT_DATA = {
   linkedin: 'https://www.linkedin.com/in/raflyazizabdillah/',
   github: 'https://github.com/raflytch',
   location: 'Jakarta, Indonesia',
+  cvUrl: 'https://drive.google.com/file/d/1beyUoeFLz29jdRAnOcLmIl6evg9OfPoV/view?usp=sharing',
 };
 
 
